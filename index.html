@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnglishMaster</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-graduation-cap"></i>
+        <span>EnglishMaster</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-view="home" title="Ana Sayfa">
+          <i class="fas fa-home"></i><span>Ana Sayfa</span>
+        </button>
+        <button class="nav-btn" data-view="dictionary" title="Sözlük">
+          <i class="fas fa-book"></i><span>Sözlük</span>
+        </button>
+        <button class="nav-btn" data-view="flashcard" title="Kartlar">
+          <i class="fas fa-layer-group"></i><span>Kartlar</span>
+        </button>
+        <button class="nav-btn" data-view="review" title="Tekrar">
+          <i class="fas fa-rotate"></i><span>Tekrar</span>
+        </button>
+        <button class="nav-btn" data-view="stats" title="İstatistikler">
+          <i class="fas fa-chart-bar"></i><span>İstatistik</span>
+        </button>
+        <button class="nav-btn" data-view="achievements" title="Başarımlar">
+          <i class="fas fa-trophy"></i><span>Başarımlar</span>
+        </button>
+        <button class="nav-btn" data-view="settings" title="Ayarlar">
+          <i class="fas fa-cog"></i><span>Ayarlar</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="streak-badge" title="Art arda doğru"><i class="fas fa-fire"></i> <span id="streak-count">0</span></span>
+      </div>
+    </aside>
+
+    <main id="main-content">
+      <!-- HOME VIEW -->
+      <section id="view-home" class="view active">
+        <header class="view-header">
+          <h1>Ana Sayfa</h1>
+          <p id="greeting">Bugünün kelimesini öğrenmeye hazır mısın?</p>
+        </header>
+        <div class="home-grid">
+          <div class="stat-card glass">
+            <i class="fas fa-book-open"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-total-words">0</span>
+              <span class="stat-label">Toplam Kelime</span>
+            </div>
+          </div>
+          <div class="stat-card glass">
+            <i class="fas fa-check-circle"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-learned">0</span>
+              <span class="stat-label">Öğrenilen</span>
+            </div>
+          </div>
+          <div class="stat-card glass">
+            <i class="fas fa-star"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-favorites">0</span>
+              <span class="stat-label">Favoriler</span>
+            </div>
+          </div>
+          <div class="stat-card glass">
+            <i class="fas fa-fire"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="stat-streak">0</span>
+              <span class="stat-label">Seri</span>
+            </div>
+          </div>
+        </div>
+        <div class="home-card glass">
+          <h2><i class="fas fa-lightbulb"></i> Günün Kelimesi</h2>
+          <div id="word-of-day">
+            <p class="wod-english" id="wod-english">-</p>
+            <p class="wod-turkish" id="wod-turkish">-</p>
+            <button class="btn btn-sm" id="wod-speak"><i class="fas fa-volume-up"></i> Dinle</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- DICTIONARY VIEW -->
+      <section id="view-dictionary" class="view">
+        <header class="view-header">
+          <h1>Sözlük</h1>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Kelime ara...">
+          </div>
+        </header>
+        <div class="level-tabs" id="level-tabs"></div>
+        <div class="filter-bar">
+          <label><input type="checkbox" id="filter-favorites"> Favoriler</label>
+          <label><input type="checkbox" id="filter-difficult"> Zor</label>
+          <label><input type="checkbox" id="filter-learned"> Öğrenilen</label>
+          <select id="filter-pos">
+            <option value="all">Tümü</option>
+            <option value="noun">İsim</option>
+            <option value="verb">Fiil</option>
+            <option value="adjective">Sıfat</option>
+            <option value="adverb">Zarf</option>
+            <option value="preposition">Edat</option>
+            <option value="conjunction">Bağlaç</option>
+            <option value="interjection">Ünlem</option>
+            <option value="pronoun">Zamir</option>
+            <option value="phrase">İfade</option>
+          </select>
+        </div>
+        <div class="word-list" id="word-list"></div>
+      </section>
+
+      <!-- FLASHCARD VIEW -->
+      <section id="view-flashcard" class="view">
+        <header class="view-header">
+          <h1>Kartlar</h1>
+          <div class="flashcard-controls-top">
+            <select id="fc-level-select">
+              <option value="all">Tüm Seviyeler</option>
+            </select>
+            <label><input type="checkbox" id="fc-only-favorites"> Sadece Favoriler</label>
+            <label><input type="checkbox" id="fc-only-difficult"> Sadece Zorlar</label>
+          </div>
+        </header>
+        <div class="flashcard-container">
+          <div class="flashcard glass" id="flashcard" tabindex="0">
+            <div class="card-inner" id="card-inner">
+              <div class="card-front">
+                <span class="card-level-badge" id="fc-level">A1</span>
+                <span class="card-index" id="fc-index">1 / 10</span>
+                <p class="card-english" id="fc-english">Hello</p>
+                <p class="card-phonetics" id="fc-phonetics">/həˈloʊ/</p>
+                <p class="card-hint">Kartı görmek için tıkla veya boşluğa bas</p>
+              </div>
+              <div class="card-back">
+                <span class="card-level-badge" id="fc-level-back">A1</span>
+                <span class="card-index" id="fc-index-back">1 / 10</span>
+                <p class="card-turkish" id="fc-turkish">Merhaba</p>
+                <p class="card-example" id="fc-example">"Hello, how are you?"</p>
+                <p class="card-example-turkish" id="fc-example-tr">"Merhaba, nasılsın?"</p>
+                <p class="card-pos" id="fc-pos">ünlem</p>
+              </div>
+            </div>
+          </div>
+          <div class="flashcard-actions">
+            <button class="btn btn-icon" id="fc-prev" title="Önceki (←)"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn btn-icon" id="fc-flip" title="Çevir (Boşluk)"><i class="fas fa-sync-alt"></i></button>
+            <button class="btn btn-icon" id="fc-next" title="Sonraki (→)"><i class="fas fa-chevron-right"></i></button>
+            <button class="btn btn-icon" id="fc-fav" title="Favori (F)"><i class="far fa-star"></i></button>
+            <button class="btn btn-icon" id="fc-diff" title="Zor (D)"><i class="fas fa-exclamation-triangle"></i></button>
+            <button class="btn btn-icon" id="fc-speak" title="Dinle (S)"><i class="fas fa-volume-up"></i></button>
+            <button class="btn btn-icon" id="fc-shuffle" title="Karıştır"><i class="fas fa-random"></i></button>
+          </div>
+          <div class="flashcard-progress">
+            <div class="progress-bar" id="fc-progress"><div class="progress-fill" id="fc-progress-fill"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEW VIEW -->
+      <section id="view-review" class="view">
+        <header class="view-header">
+          <h1>Tekrar</h1>
+          <p>Tekrara çıkarılacak kelimeleri gözden geçir</p>
+        </header>
+        <div id="review-setup" class="review-setup">
+          <div class="glass review-setup-card">
+            <h3><i class="fas fa-sliders-h"></i> Tekrar Ayarları</h3>
+            <label>Seviye: <select id="review-level"><option value="all">Tümü</option></select></label>
+            <label>Kelime Sayısı: <input type="number" id="review-count" value="20" min="5" max="100"></label>
+            <label><input type="checkbox" id="review-only-difficult"> Sadece zor kelimeler</label>
+            <button class="btn btn-primary" id="review-start"><i class="fas fa-play"></i> Başla</button>
+          </div>
+        </div>
+        <div id="review-active" class="review-active hidden">
+          <div class="glass review-card" id="review-card">
+            <div class="card-inner" id="review-card-inner">
+              <div class="card-front">
+                <p class="card-english" id="rev-english">-</p>
+                <p class="card-hint">Kartı görmek için tıkla</p>
+              </div>
+              <div class="card-back">
+                <p class="card-turkish" id="rev-turkish">-</p>
+                <p class="card-example" id="rev-example">-</p>
+              </div>
+            </div>
+          </div>
+          <div class="review-buttons">
+            <button class="btn btn-review btn-hard" id="rev-hard"><i class="fas fa-times"></i> Zor</button>
+            <button class="btn btn-review btn-good" id="rev-good"><i class="fas fa-check"></i> İyi</button>
+            <button class="btn btn-review btn-easy" id="rev-easy"><i class="fas fa-star"></i> Kolay</button>
+          </div>
+          <p class="review-progress-text" id="rev-progress">1 / 20</p>
+          <div class="progress-bar"><div class="progress-fill" id="rev-progress-fill"></div></div>
+        </div>
+        <div id="review-complete" class="review-complete hidden">
+          <div class="glass review-result">
+            <i class="fas fa-check-circle result-icon"></i>
+            <h2>Tebrikler!</h2>
+            <p>Tekrar tamamlandı!</p>
+            <div class="result-stats">
+              <span>Doğru: <strong id="rev-result-correct">0</strong></span>
+              <span>Yanlış: <strong id="rev-result-wrong">0</strong></span>
+            </div>
+            <button class="btn btn-primary" id="rev-again"><i class="fas fa-redo"></i> Tekrar Başla</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS VIEW -->
+      <section id="view-stats" class="view">
+        <header class="view-header">
+          <h1>İstatistikler</h1>
+        </header>
+        <div class="stats-grid">
+          <div class="glass stats-card">
+            <h3><i class="fas fa-chart-simple"></i> Genel</h3>
+            <div class="stat-row"><span>Toplam Tekrar</span><span id="s-total-reviews">0</span></div>
+            <div class="stat-row"><span>Doğru</span><span id="s-correct">0</span></div>
+            <div class="stat-row"><span>Yanlış</span><span id="s-wrong">0</span></div>
+            <div class="stat-row"><span>Doğruluk Oranı</span><span id="s-accuracy">%0</span></div>
+            <div class="stat-row"><span>En Uzun Seri</span><span id="s-best-streak">0</span></div>
+          </div>
+          <div class="glass stats-card">
+            <h3><i class="fas fa-layer-group"></i> Seviye Dağılımı</h3>
+            <div id="level-distribution"></div>
+          </div>
+          <div class="glass stats-card">
+            <h3><i class="fas fa-calendar"></i> Son 7 Gün</h3>
+            <div id="weekly-chart"></div>
+          </div>
+          <div class="glass stats-card">
+            <h3><i class="fas fa-trophy"></i> En Çok Çalışılan</h3>
+            <div id="most-reviewed"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACHIEVEMENTS VIEW -->
+      <section id="view-achievements" class="view">
+        <header class="view-header">
+          <h1>Başarımlar</h1>
+          <p>Rozetler toplayarak ilerlemeni takip et</p>
+        </header>
+        <div class="achievements-grid" id="achievements-grid"></div>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section id="view-settings" class="view">
+        <header class="view-header">
+          <h1>Ayarlar</h1>
+        </header>
+        <div class="settings-container">
+          <div class="glass settings-card">
+            <h3><i class="fas fa-palette"></i> Görünüm</h3>
+            <label class="toggle-row">
+              <span>Karanlık Mod</span>
+              <input type="checkbox" id="setting-dark" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="glass settings-card">
+            <h3><i class="fas fa-volume-up"></i> Ses</h3>
+            <label class="toggle-row">
+              <span>Sesli Okuma (TTS)</span>
+              <input type="checkbox" id="setting-tts" checked>
+              <span class="toggle-slider"></span>
+            </label>
+            <label class="range-row">
+              <span>Hız</span>
+              <input type="range" id="setting-tts-rate" min="0.5" max="2" step="0.1" value="1">
+              <span id="setting-tts-rate-val">1.0x</span>
+            </label>
+          </div>
+          <div class="glass settings-card">
+            <h3><i class="fas fa-database"></i> Veri</h3>
+            <div class="btn-row">
+              <button class="btn" id="btn-export"><i class="fas fa-download"></i> Veriyi Dışa Aktar</button>
+              <button class="btn" id="btn-import"><i class="fas fa-upload"></i> Veriyi İçe Aktar</button>
+              <button class="btn btn-danger" id="btn-reset"><i class="fas fa-trash"></i> Sıfırla</button>
+            </div>
+            <input type="file" id="import-file" accept=".json" style="display:none">
+          </div>
+          <div class="glass settings-card">
+            <h3><i class="fas fa-info-circle"></i> Hakkında</h3>
+            <p>EnglishMaster v1.0 - Kişisel İngilizce kelime öğrenme uygulaması</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/words-complete.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
